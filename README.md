@@ -19,25 +19,25 @@ Gene ontology (GO) and KEGG pathway analysis were performed using clusterProfile
     <th>Resource</th><th>URL</th>
   </tr>
   <tr>
-    <td>Oar_v3.1</td><td>[[Link]](https://www.ensembl.org/Ovis_aries/Info/Index)</td>
+    <td>Oar_v3.1</td><td>[Link](https://www.ensembl.org/Ovis_aries/Info/Index)</td>
   </tr>
   <tr>
-    <td>FastQC</td><td>[[Link]](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)</td>
+    <td>FastQC</td><td>[Link](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)</td>
   </tr>
   <tr>
-    <td>Trim_galore</td><td>[[Link]](http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)</td>
+    <td>Trim_galore</td><td>[Link](http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)</td>
   </tr>
   <tr>
-    <td>STAR</td><td>[[DOI]](https://academic.oup.com/bioinformatics/article/29/1/15/272537)</td>
+    <td>STAR</td><td>[DOI](https://academic.oup.com/bioinformatics/article/29/1/15/272537)</td>
   </tr>
   <tr>
-    <td>Feature_counts</td><td>[[DOI]](https://academic.oup.com/bioinformatics/article/30/7/923/232889)</td>
+    <td>Feature_counts</td><td>[DOI](https://academic.oup.com/bioinformatics/article/30/7/923/232889)</td>
   </tr>
   <tr>
-    <td>ClusterFlow</td><td>[[DOI]](https://f1000research.com/articles/5-2824/v2)</td>
+    <td>ClusterFlow</td><td>[DOI](https://f1000research.com/articles/5-2824/v2)</td>
   </tr>
   <tr>
-    <td>MultiQC</td><td>[[DOI]](https://academic.oup.com/bioinformatics/article/32/19/3047/2196507)</td>
+    <td>MultiQC</td><td>[DOI](https://academic.oup.com/bioinformatics/article/32/19/3047/2196507)</td>
   </tr>
 </table>
 
