@@ -14,32 +14,16 @@ on the estimated size factors. </bt>
 
 Gene ontology (GO) and KEGG pathway analysis were performed using clusterProfiler (3.10.1).  </bt>
 
-<table>
-  <tr>
-    <th>Resource</th><th>URL</th>
-  </tr>
-  <tr>
-    <td>Oar_v3.1</td><td>[Link](https://www.ensembl.org/Ovis_aries/Info/Index)</td>
-  </tr>
-  <tr>
-    <td>FastQC</td><td>[Link](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)</td>
-  </tr>
-  <tr>
-    <td>Trim_galore</td><td>[Link](http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)</td>
-  </tr>
-  <tr>
-    <td>STAR</td><td>[DOI](https://academic.oup.com/bioinformatics/article/29/1/15/272537)</td>
-  </tr>
-  <tr>
-    <td>Feature_counts</td><td>[DOI](https://academic.oup.com/bioinformatics/article/30/7/923/232889)</td>
-  </tr>
-  <tr>
-    <td>ClusterFlow</td><td>[DOI](https://f1000research.com/articles/5-2824/v2)</td>
-  </tr>
-  <tr>
-    <td>MultiQC</td><td>[DOI](https://academic.oup.com/bioinformatics/article/32/19/3047/2196507)</td>
-  </tr>
-</table>
+Resource       | URL
+-------------- | --------------
+Oar_v3.1       | [Link](https://www.ensembl.org/Ovis_aries/Info/Index)
+FastQC         | [Link](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+Trim_galore    | [Link](http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)
+STAR           | [DOI](https://academic.oup.com/bioinformatics/article/29/1/15/272537)
+Feature_Counts | [DOI](http://dx.doi.org/10.1093/bioinformatics/btt656)
+ClusterFlow    | [DOI](http://dx.doi.org/10.12688/f1000research.10335.2)
+MultiQC        | [DOI](http://dx.doi.org/10.1093/bioinformatics/btw354)
+
 
 ## Scripts to reproduce paper figures and Tables
 
@@ -47,7 +31,7 @@ All files are provides in this repository with the exception of the GTF file for
 
 The bash script for align and QC control is named as below.
 
-                         ClusterFlow_HTSEQ.sh
+                         ClusterFlow_FTSEQ.sh
 
 All the featureCounts files are in the Feature_Counts folder. These scripts can be run interactively in R-studio or as a batch using **Rscripts** by changing the working directory. The *Backstge_Functions_19_07_2019.R* is the useful functions which will be called in the main script *DESeq2_Analysis.R*. </bt>
 
