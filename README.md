@@ -31,7 +31,7 @@ All files are provides in this repository with the exception of the GTF file for
 
 The bash script for align and QC control is named as below.
 
-                         ClusterFlow_FTSEQ.sh
+                                       ClusterFlow_FTSEQ.sh
 
 All the featureCounts files are in the Feature_Counts folder. These scripts can be run interactively in R-studio or as a batch using **Rscripts** by changing the working directory. The *Backstge_Functions_19_07_2019.R* is the useful functions which will be called in the main script *DESeq2_Analysis.R*. </bt>
 
@@ -151,15 +151,9 @@ loaded via a namespace (and not attached):
 
 ````
 
-
-
-
-
-
-
 ## SampleTable
 
-                              SampleTable.csv
+                                      SampleTable.csv
 ## Links
 Description   | URL
 ------------- | ----------

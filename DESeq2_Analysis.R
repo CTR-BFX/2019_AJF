@@ -949,3 +949,15 @@ barplotSum1 <- ggplot(BP.sheep.TS_molten, aes(x = reorder(Description, -qvalue),
 barplotSum1
 
 dev.off()
+
+##-------------------------FIN---------------------------------------------------##
+Pgenes <- c("DIO1",	"ADRA2A",	"IGF1",	"LEP", "IGF2", "UCP1", "THRB", "SLC2A4", "DIO2",
+	          "ADRB3", "PPARG",	"ADRB1", "ADRB2",	"ADRA1D",	"INSR",	"PCNA",	"THRA",	"IGF1R",
+            "AKT2",	"MTOR",	"RPS6KC1", "AKT1S1", "ADRA1A", "ADRA2A")
+
+ensembl_GO <- getBM(attributes = c("external_gene_name", "ensembl_gene_id", "name_1006"),mart = sheep)
+
+ensembl_GO_PG <- ensembl_GO[ensembl_GO$external_gene_name%in%Pgenes==T,]
+
+sumTab <- t(table(ensembl_GO_PG$external_gene_name, ensembl_GO_PG$name_1006))
+write.csv(sumtab, file = paste0(out.dir, "/", Project, "-Select23Genes_GO_name1006_12_08_2019.csv"))
