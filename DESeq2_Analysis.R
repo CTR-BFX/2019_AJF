@@ -38,6 +38,7 @@
 #------------------------------------------------------------------------------
 
 message("+--- Loading in the libraries (start up messages supressed) ---+")
+
 suppressPackageStartupMessages({
   rm(list=ls())
   library('DESeq2')
@@ -58,6 +59,8 @@ suppressPackageStartupMessages({
   library('ggalt')
   library('UpSetR')
   library('ComplexHeatmap')
+  library('xlsx')
+  library('grid')
  })
 
 
@@ -73,8 +76,9 @@ med.dir <- paste0(Base.dir, "/Figures_Tables_2")
 elementTextSize <- 10
 significance <- 0.05
 l2fc <- 1
-#source(paste0(script.dir,"/Utility_function.R"))
+
 source(paste0(script.dir, "/Backstage_Functions_19_07_2019.R"))
+
 message("+------------     Set up the sample table    -----------------------------------+")
 
 sampleTable <- read.csv(paste0(Base.dir, "/SampleTable.csv"), header = T)
@@ -122,7 +126,7 @@ message("------------     Creat ddsHTSeq/dds object       ---------------+")
 
 DESeq2Version <- "DESeq2_1.22.2"
 
-ddsHTSeq.rm <- DESeqDataSetFromHTSeqCount(sampleTable=sampleTable.rm, directory=FTSeq.dir, design=~0+condition, betaPrior = F)
+ddsHTSeq.rm <- DESeqDataSetFromHTSeqCount(sampleTable=sampleTable.rm, directory=FTSeq.dir, design=~0+condition)
 ddsHTSeq.rm
 
 dds.rm <- DESeq(ddsHTSeq.rm)
@@ -308,8 +312,8 @@ message("+------        1) TX vs SHAM, 2) Age 129, TX vs SHAM, Age 143 TX vs SHA
 ## load the rld file, and produce the volcano plot, TX vs SHAM
 load(file = paste0(out.dir, "/", Project, "-SixModelCompare_Res1-6_Data.RData"))
 resfiles.all <- list(res5.ann, res6.ann)
-titles.all <- c("TX vs SHAM::N=1472", "143 vs 129::N=409")
-xlabels.all <- c("log2FC (TX/SHAM)", "log2FC (143/129)")
+titles.all <- c("Treatment: TX vs Sham, N=1472", "GA: 143 vs 129 dGA, N=409")
+xlabels.all <- c("log2FC (TX/Sham)", "log2FC (143/129 dGA)")
 ylabels.all <- bquote("-log"[10]~"(adj.p.value)")
 Groupall.volPlot <- list()
 Dnums <- c(704, 229); Unums <- c(768, 180)
@@ -327,12 +331,12 @@ for(i in 1:2){
                                                  unum=Unums[i])
 }
 
-pdf(paste0(out.dir, "/", Project, "-ModelComparison_Group56_VolcanoPlot_23_07_2019.pdf"), height = 8, width = 16)
+pdf(paste0(out.dir, "/", Project, "-ModelComparison_Group56_VolcanoPlot_23_07_2019_resize.pdf"), height = 5, width = 10)
 plot_grid(Groupall.volPlot[[1]], Groupall.volPlot[[2]], ncol=2)
 dev.off()
 
 ## defined groups within treatment or within gestational age.
-titles <- c( "SHAM (143 vs 129)::N=609", "TX (143 vs 129)::N=174","129 (TX vs SHAM)::N=1090", "143 (TX vs SHAM)::N=1576")
+titles <- c( "SHAM: 143 vs 129 dGA, N=609", "TX: 143 vs 129 dGA, N=174","129 dGA: TX vs SHAM, N=1090", "143 dGA: TX vs SHAM, N=1576")
 resfiles <- list(res1.ann, res2.ann,res3.ann, res4.ann)
 xlabels <- rep(xlabels.all, each = 2)
 ylabels <- ylabels.all
@@ -353,8 +357,9 @@ for(i in 1:4){
                                                  unum=Unums[i])
 }
 
-pdf(paste0(out.dir, "/", Project, "-ModelComparison_Group4_VolcanoPlot_23_07_2019.pdf"), height = 10, width = 10)
-plot_grid(Group.volPlot[[1]], Group.volPlot[[2]], Group.volPlot[[3]], Group.volPlot[[4]], nrow=2)
+pdf(paste0(out.dir, "/", Project, "-ModelComparison_Group4_VolcanoPlot_23_07_2019_resize.pdf"), height = 5, width = 10)
+plot_grid(Group.volPlot[[1]], Group.volPlot[[2]])
+plot_grid(Group.volPlot[[3]], Group.volPlot[[4]])
 dev.off()
 
 message("+-----        Heatmap for the top 262 genes with cutoff abs(l2fc) >= 2 and padj < 0.05      -------------------+")
@@ -585,7 +590,7 @@ library('enrichplot')
 library('pathview')
 library('AnnotationHub')
 library('circlize')
-library(ensembldb)
+library('ensembldb')
 })
 
 hub <- AnnotationHub()
@@ -820,61 +825,23 @@ barplotSum <- ggplot(KEGG.sheep.TS_molten, aes(x = reorder(Description, -qvalue)
                      limits=c(-30,30)) + # Labels
 
   coord_flip() +  # Flip axes
-  labs(title="KEGG Pathway") +
+  #labs(title="KEGG Pathway") +
   xlab("") +
   ylab("") +
   guides(fill=FALSE) +
   theme(plot.title = element_text(hjust = .2),
-        axis.ticks = element_blank()) +   # Centre plot title
+        axis.ticks = element_blank()
+        ) +   # Centre plot title
   scale_fill_manual(values = c("red", "blue"))+  # Color palette
   theme_bw() +
-  theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
-  annotate("text", x = 1 , y =25, label = zscore[44], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 2 , y =25, label = zscore[43], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 3 , y =25, label = zscore[42], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 4 , y =25, label = zscore[41], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 5 , y =25, label = zscore[40], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 6 , y =25, label = zscore[39], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 7 , y =25, label = zscore[38], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 8 , y =25, label = zscore[37], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 9 , y =25, label = zscore[36], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 10 , y =25, label = zscore[35], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 11 , y =25, label = zscore[34], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 12 , y =25, label = zscore[33], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 13 , y =25, label = zscore[32], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 14 , y =25, label = zscore[31], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 15 , y =25, label = zscore[30], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 16 , y =25, label = zscore[29], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 17 , y =25, label = zscore[28], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 18 , y =25, label = zscore[27], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 19 , y =25, label = zscore[26], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 20 , y =25, label = zscore[25], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 21 , y =25, label = zscore[24], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 22 , y =25, label = zscore[23], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 23 , y =25, label = zscore[22], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 24 , y =25, label = zscore[21], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 25 , y =25, label = zscore[20], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 26 , y =25, label = zscore[19], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 27 , y =25, label = zscore[18], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 28 , y =25, label = zscore[17], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 29 , y =25, label = zscore[16], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 30 , y =25, label = zscore[15], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 31 , y =25, label = zscore[14], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 32 , y =25, label = zscore[13], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 33 , y =25, label = zscore[12], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 34 , y =25, label = zscore[11], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 35 , y =25, label = zscore[10], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 36 , y =25, label = zscore[9], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 37 , y =25, label = zscore[8], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 38 , y =25, label = zscore[7], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 39 , y =25, label = zscore[6], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 40 , y =25, label = zscore[5], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 41 , y =25, label = zscore[4], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 42 , y =25, label = zscore[3], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 43 , y =25, label = zscore[2], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 44 , y =25, label = zscore[1], vjust = 0.5, hjust = 0.5)
-
-
+  theme_update(axis.title.x = element_text(size=12, face= "bold"),
+        axis.text.x = element_text(size=12, face="bold"),
+        axis.title.y = element_text(size=12, face= "bold"),
+        axis.text.y.left = element_text(size=12, face="bold")) +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"),panel.background = element_rect(fill = "white", colour = NA)) 
+  
+  
 barplotSum
 
 dev.off()
@@ -903,15 +870,15 @@ brks <- seq(-40, 40, 10)
 lbls = as.character(c(seq(40, 0, -10), seq(10, 40, 10)))
 zscore <- round(BP.sheep.TS$zscore, digits = 3)
 
-pdf(paste0(out.dir, "/", Project, "-BP_sheep_TXvsSHAM_GeneCount_Barplot_N24_08_08_19.pdf"), width=12, height=8)
+pdf(paste0(out.dir, "/", Project, "-BP_sheep_TXvsSHAM_GeneCount_Barplot_N24_08_08_19.pdf"), width=12, height=6)
 barplotSum1 <- ggplot(BP.sheep.TS_molten, aes(x = reorder(Description, -qvalue), y = value, fill = variable)) +   # Fill column
   geom_bar(stat = "identity", width = 0.8) +   # draw the bars
   scale_y_continuous(breaks = brks,   # Breaks
                      labels = lbls,
-                     limits=c(-40,40)) + # Labels
+                     limits=c(-30,30)) + # Labels
 
   coord_flip() +  # Flip axes
-  labs(title="Biological Process") +
+  #labs(title="Biological Process") +
   xlab("") +
   ylab("") +
   guides(fill=FALSE) +
@@ -919,37 +886,21 @@ barplotSum1 <- ggplot(BP.sheep.TS_molten, aes(x = reorder(Description, -qvalue),
         axis.ticks = element_blank()) +   # Centre plot title
   scale_fill_manual(values = c("red", "blue"))+  # Color palette
   theme_bw() +
-  theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
-  annotate("text", x = 1 , y =35, label = zscore[24], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 2 , y =35, label = zscore[23], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 3 , y =35, label = zscore[22], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 4 , y =35, label = zscore[21], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 5 , y =35, label = zscore[20], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 6 , y =35, label = zscore[19], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 7 , y =35, label = zscore[18], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 8 , y =35, label = zscore[17], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 9 , y =35, label = zscore[16], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 10 , y =35, label = zscore[15], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 11 , y =35, label = zscore[14], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 12 , y =35, label = zscore[13], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 13 , y =35, label = zscore[12], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 14 , y =35, label = zscore[11], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 15 , y =35, label = zscore[10], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 16 , y =35, label = zscore[9], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 17 , y =35, label = zscore[8], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 18 , y =35, label = zscore[7], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 19 , y =35, label = zscore[6], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 20 , y =35, label = zscore[5], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 21 , y =35, label = zscore[4], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 22 , y =35, label = zscore[3], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 23 , y =35, label = zscore[2], vjust = 0.5, hjust = 0.5) +
-  annotate("text", x = 24 , y =35, label = zscore[1], vjust = 0.5, hjust = 0.5)
+  theme_update(axis.title.x = element_text(size=14, face= "bold"),
+               axis.text.x = element_text(size=14, face="bold"),
+               axis.title.y = element_text(size=14, face= "bold"),
+               axis.text.y = element_text(size=14, face="bold")) +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black"),panel.background = element_rect(fill = "white", colour = NA)) 
 
 
 barplotSum1
 
 dev.off()
 
+pdf(paste0(out.dir, "/", Project, "-KEGG_BP_sheep_TXvsSHAM_GeneCount_Barplot_N24_08_08_19.pdf"), width= 18, height = 8)
+plot_grid(barplotSum, barplotSum1, ncol = 2,labels = c('(A)', '(B)'), label_size = 12, align="hv", rel_heights = c(1.5,1))
+dev.off()
 ##-------------------------FIN---------------------------------------------------##
 Pgenes <- c("DIO1",	"ADRA2A",	"IGF1",	"LEP", "IGF2", "UCP1", "THRB", "SLC2A4", "DIO2",
 	          "ADRB3", "PPARG",	"ADRB1", "ADRB2",	"ADRA1D",	"INSR",	"PCNA",	"THRA",	"IGF1R",
@@ -961,3 +912,33 @@ ensembl_GO_PG <- ensembl_GO[ensembl_GO$external_gene_name%in%Pgenes==T,]
 
 sumTab <- t(table(ensembl_GO_PG$external_gene_name, ensembl_GO_PG$name_1006))
 write.csv(sumtab, file = paste0(out.dir, "/", Project, "-Select23Genes_GO_name1006_12_08_2019.csv"))
+
+message("+--------------       DeconRNASeq for sheep adipose tissue analysis          ---------------------+")
+message("+-------------- Choose the key markers from paper Basse eet al BMC Genomics 2015, 16:215 ---------+")
+
+Basse.Table.all <- read.xlsx(paste0(Base.dir, "/Paper_Basse_BMC_Genomics_2015/12864_2015_1405_MOESM4_ESM.xlsx"), sheetIndex = 1)
+Basse.Table.brown <- read.xlsx(paste0(Base.dir, "/Paper_Basse_BMC_Genomics_2015/12864_2015_1405_MOESM5_ESM.xlsx"), sheetIndex = 1)
+Basse.Table.white <- read.xlsx(paste0(Base.dir, "/Paper_Basse_BMC_Genomics_2015/12864_2015_1405_MOESM6_ESM.xlsx"), sheetIndex = 1)
+
+BTW.genes <- Basse.Table.all[,2]
+BrownT.genes <- Basse.Table.brown[,2]
+TWhite.genes <- Basse.Table.white[,2]
+
+select.BWT <- unique(c(as.character(BrownT.genes), as.character(TWhite.genes)))
+select.BWT <- select.BWT[-which(select.BWT=="No gene found")]
+
+ddsHTSeq.rm.age <- DESeqDataSetFromHTSeqCount(sampleTable=sampleTable.rm, directory=FTSeq.dir, design=~GestationalAge+condition)
+ddsHTSeq.rm.age
+
+dds.rm.age <- DESeq(ddsHTSeq.rm.age)
+dds.rm.age <- estimateSizeFactors(dds.rm.age)
+rld.rm.age <- rlogTransformation(dds.rm.age, blind=F)
+vsd.rm.age <- varianceStabilizingTransformation(dds.rm.age, blind=F)
+
+message("+--------------------------      Create results object                                      ------------------+")
+
+normCounts.rm.ori.age <- counts(dds.rm.age, normalized=TRUE)
+normCounts.rm.age <- cbind(normCounts.rm.ori.age, rownames(normCounts.rm.ori.age))
+colnames(normCounts.rm.age) <- c(colnames(normCounts.rm.ori.age), "ensembl_gene_id")
+
+normCounts.rm.annot.age <- merge(normCounts.rm.age,ensEMBL2id, by="ensembl_gene_id" )

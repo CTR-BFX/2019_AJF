@@ -171,7 +171,15 @@ functionPlotDEVolcano <- function(results, sig_cut, logfc_cut, title,  xrange, y
   results       <- as.data.frame(results)
   results$genes <- results$external_gene_name
   results <- results[order(-results$log2FoldChange),]
+  
+  grob.down <- grobTree(textGrob(paste0("Down=", dnum), x=-3,  y=80, hjust=0,
+                                 gp=gpar(col="blue", fontsize=13, fontface="bold")))
+  grob.up<- grobTree(textGrob(paste0("Up=", dnum), x=3,  y=80, hjust=0,
+                              gp=gpar(col="red", fontsize=13, fontface="bold")))
+  # Plot
+ 
   volc.plt <- ggplot(data=results, aes(x=log2FoldChange, y=-log(padj), label=genes)) +
+  
                     geom_vline(xintercept = logfc_cut,     colour="black", linetype = "dashed", alpha=0.5) +
                     geom_vline(xintercept = -(logfc_cut),  colour="black", linetype = "dashed", alpha=0.5) +
                     geom_hline(yintercept = -log(sig_cut), colour="black", linetype = "dashed", alpha=0.5) +
@@ -180,24 +188,30 @@ functionPlotDEVolcano <- function(results, sig_cut, logfc_cut, title,  xrange, y
                                alpha = 0.75, size=0.8, colour="red") +
                     geom_point(data=subset(results, results$padj<=sig_cut & results$log2FoldChange <= -(logfc_cut)),
                                alpha = 0.75, size=0.8, colour="blue") +
+   
                     geom_text_repel( data= subset(results, results$log2FoldChange > 1 & results$padj<=sig_cut & results$external_gene_name!="")[1:topN,],
-                                     show.legend = FALSE, nudge_x=0.1, nudge_y=0.1, segment.size = 0.25, size=2 ) +
+                                     show.legend = FALSE, nudge_x=0.1, nudge_y=0.1, segment.size = 0.25, size=3 ) +
                     geom_text_repel( data= tail(subset(results, results$log2FoldChange < (-1) & results$padj<=sig_cut & results$external_gene_name!=""), n=topN),
-                                     show.legend = FALSE, nudge_x=0.1, nudge_y=0.1, segment.size = 0.25, size=2 ) +
+                                     show.legend = FALSE, nudge_x=0.1, nudge_y=0.1, segment.size = 0.25, size=3 ) +
                     xlab(xlabel) + ylab(ylabel) +
                     scale_x_continuous(limits=c(xrange[1],xrange[2]), breaks=seq(xrange[1],xrange[2],xrange[3])) +
                     scale_y_continuous(limits=c(yrange[1],yrange[2]), breaks=seq(yrange[1],yrange[2],yrange[3])) +
                     theme(aspect.ratio=1) +
                     ggtitle(title) +
-                    theme_classic() +
-                    #
-                    theme_update(plot.title = element_text(size=12, face="bold", hjust=0.5)) +
+                    theme_update(plot.title = element_text(size=16, face="bold", hjust=0.5),
+                               axis.title.x = element_text(size=12, face= "bold"),
+                               axis.text.x = element_text(size=12, face="bold"),
+                               axis.title.y.left = element_text(size=12, face= "bold"),
+                               axis.text.y = element_text(size=12, face="bold")) +
                     theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"),
-                    panel.background = element_rect(fill = "white", colour = NA)) +
+                                  panel.background = element_rect(fill = "white", colour = NA)) +
+    #annotation_custom(grob.down) +
+    #annotation_custom(grob.up)
+    
                     annotate(geom="text", x=-3, y=80, label=paste0("Down=", dnum), color="blue") +
-                    annotate(geom="text", x=3, y=80, label=paste0("Up=", unum), color="red")
-
-                return(volc.plt)
+                    annotate(geom="text", x=3, y=80, label=paste0("Up=", unum), color="red") 
+                     
+    return(volc.plt)
 }
 
 message("+-----------            Heatmap data sort and Heatmap plot function                     --------------+")
