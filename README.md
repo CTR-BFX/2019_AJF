@@ -1,11 +1,11 @@
-# Thyroid deficiency in utero stimulates white adipose tissue growth and impairs brown adipose thermogenic capacity
-
+# Thyroid deficiency before birth modifies adipose transcriptome to promote overgrowth of white adipose tissue and impair thermogenic capacity
 
 
 
 ## Publication
 
 ## Abstract
+Development of adipose tissue before birth is essential for energy storage and thermoregulation in the neonate and for cardiometabolic health in later life.  Thyroid hormones are important regulators of fetal growth and maturation.  Offspring hypothyroid in utero are poorly adapted to regulate body temperature at birth and are at risk of becoming obese and insulin resistant in childhood.  The mechanisms by which thyroid hormones regulate the growth and development of adipose tissue in the fetus, however, are unclear.  The effect of thyroid deficiency (TX) on perirenal adipose tissue (PAT) development was examined in a fetal sheep model during late gestation.  Hypothyroidism in utero resulted in elevated plasma insulin and leptin concentrations and overgrowth of PAT, specifically due to hyperplasia and hypertrophy of unilocular adipocytes with no change in multilocular adipocyte mass.  RNA-sequencing and genomic analyses showed that TX affected 35% of the genes identified in fetal adipose tissue.  Enriched KEGG and gene ontology pathways were associated with adipogenic, metabolic and thermoregulatory processes, insulin resistance, and a range of endocrine and adipocytokine signalling pathways.  Adipose protein levels of signalling molecules, including phosphorylated S6-kinase (pS6K), glucose transporter isoform 4 (GLUT-4) and peroxisome proliferator-activated receptor-γ (PPARγ), were increased and uncoupling protein-1 (UCP1) was decreased by fetal hypothyroidism.  Development of adipose tissue before birth, therefore, is sensitive to thyroid hormone status in utero.  Changes to the adipose transcriptome and phenotype observed in the hypothyroid fetus may have consequences for the risk of obesity and metabolic dysfunction in later life.
 
 ## Data Processing
 Data were aligned to sheep genome (Oar_v3.1) with STAR (2.5.1b_modified) with --single option. Alignments and QC were processed using custom ClusterFlow (v0.5dev) pipelines and assessed using MultiQC(0.9dev).
