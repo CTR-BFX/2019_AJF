@@ -1,2 +1,0 @@
-Sample	Cluster Flow_pipeline_name	Cluster Flow_num_starting_files	Cluster Flow_pipeline_start	Cluster Flow_genome
-cf_fastq_star_1525267670	fastq_star	74	2018-05-02 14:27	Oar_v3.1
