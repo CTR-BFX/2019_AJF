@@ -1,0 +1,23 @@
+report_header_info:
+    - Analysis by:: 'Xiaohui Zhao and Russell S. Hamilton'
+    - Contact E-mail:: 'xz289@cam.ac.uk and rsh46@cam.ac.uk'
+    - Application Type:: 'RNA-seq'
+    - Project Type:: 'RNA-Seq Differential Analysis'
+    - Project Owners:: 'Alison Forhead'
+    - Sequencing Platform:: 'Illumina '
+    - Sequencing Setup:: 'SE 50bp'
+
+title: "Project ID ::: CTR_ajf1005_0001"
+subtitle: "Centre for Trophoblast Research, University of Cambridge"
+intro_text: "Created by CTR Bioinformatics"
+
+output_fn_name: CTR_ajf1005_0001.multiqc_report.html
+data_dir_name: CTR_ajf1005_0001.multiqc_data
+
+fn_ignore_files:
+    - '*tophatrun2.align_summary.txt'
+
+custom_logo: '/storage/Logo/CTR_600.png'
+custom_logo_url: 'http://www.trophoblast.cam.ac.uk/Resources/BioInformatics'
+custom_logo_title: 'Centre for Trophoblast Research, University of Cambridge'
+
