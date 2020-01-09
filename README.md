@@ -97,4 +97,4 @@ Raw Data      | ArrayExpress EMBL-EBI [E-MTAB-8396](https://www.ebi.ac.uk/arraye
 CTR Bioinformatics | [CTR-BFX](https://www.trophoblast.cam.ac.uk/Resources/BioInformatics)
 
 ## Contact
-Contact Xiaohui Zhao (xz289@cam.ac.uk) for bioinformatics related queries.
+Contact Xiaohui Zhao (xz289@cam.ac.uk) and Russell S. Hamilton (rsh46@cam.ac.uk) for bioinformatics related queries.

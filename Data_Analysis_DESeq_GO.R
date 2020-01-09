@@ -307,7 +307,7 @@ res.MA <- functionCustomMAPlot(res.ann, Project, "TX_SHAM",
                                label_l2fc, favoritegenes, out.dir)
 
 
-message("+-----------SFig 2: Volcano plot for the data, compare condition, and then split into interest groups------------------------------+")
+message("+-----------Fig 2: Volcano plot for the data, compare condition, and then split into interest groups------------------------------+")
 message("+------        1) TX vs SHAM, 2) Age 129, TX vs SHAM, Age 143 TX vs SHAM; 3) TX: 143 vs 129; SHAM: 143 vs 129-           ----------+")
 
 ## load the rld file, and produce the volcano plot, TX vs SHAM
@@ -363,7 +363,7 @@ plot_grid(Group.volPlot[[1]], Group.volPlot[[2]])
 plot_grid(Group.volPlot[[3]], Group.volPlot[[4]])
 dev.off()
 
-message("+-----        Heatmap for the top 272 genes with cutoff abs(l2fc) >= 2 and padj < 0.05      -------------------+")
+message("+-----      SFig 1:  Heatmap for the top 272 genes with cutoff abs(l2fc) >= 2 and padj < 0.05      -------------------+")
 
 houtfile1 <- paste0(out.dir, "/", Project, "-Heatmap_sortData_padj0.05_l2fc2_top272_rm27_rm3_23_07_2019.RData")
 select.no <- 272
@@ -455,7 +455,7 @@ print(corrD.plot2)
 dev.off()
 
 
-message("+------- 6 models upsetR plot 1) all intersection groups 2) only show the number of unique groups after intersection-+")
+message("+-------SFig2: 6 models upsetR plot 1) all intersection groups 2) only show the number of unique groups after intersection-+")
 
 UpsetR.datList <- list(geneL_TX_SHAM$ensembl_gene_id, geneL_TX_143vs129$ensembl_gene_id, geneL_SHAM_143vs129$ensembl_gene_id,
                        geneL_129_TXvsSHAM$ensembl_gene_id, geneL_143_TXvsSHAM$ensembl_gene_id, geneL_143vs129$ensembl_gene_id)
@@ -595,7 +595,7 @@ for(i in 1:6){
 
 save(BP.sheep.ori, KEGG.sheep.ori, BP.sheep, KEGG.sheep, file = paste0(out.dir, "/", Project, "-GO_KEGG_pathway_p0.05_l2fc1_q0.05_08_08_2019.RData"))
 
-message("+-------------Produce the GO/KEGG heatmap plot for six models common/unique pathways ------------+")
+message("+-------------SFig 3 (a): Produce the GO/KEGG heatmap plot for six models common/unique pathways ------------+")
 
 ## KEGG pathways : model TX vs SHAM (1140): 44 pathways; model TX 143 vs 129 (147): 1 pathway; model SHAM 143 vs 129 (504): 2 pathways;
 ##                 model 129 TX vs SHAM (882): 47 pathways; model 143 TX vs SHAM (1230): 29 pathways; model 143 vs 129 (327): 1 pathway.
@@ -617,7 +617,7 @@ KEGG.gplotdat$Pathway <- with(KEGG.gplotdat, reorder(Pathway, TXvsSHAM))
 KEGG.gplotm <- melt(KEGG.gplotdat)
 KEGG.gplotm <- ddply(KEGG.gplotm, .(variable), transform)
 
-pdf(paste0(out.dir, "/", Project, "-KEGGpathway_6models_Heatmap_05_08_2019.pdf"), height=10, width = 5)
+pdf(paste0(out.dir, "/", Project, "-KEGGpathway_6models_Heatmap_Supplementary_Fig3A.pdf"), height=10, width = 5)
 base_size <- 9
 ggplot(KEGG.gplotm, aes(variable, Pathway)) +
   geom_tile(aes(fill = value), colour = "grey") +
@@ -659,7 +659,7 @@ KEGG.ht <- Heatmap(KEGG.pathway.final.mat,
 )
 draw(KEGG.ht, heatmap_legend_side="right")
 
-message("+---------------                     Biological Process for six models             ----------------------------+")
+message("+---------------        SFig4 (a):             Biological Process for six models             ----------------------------+")
 
 ## Biological Process : model TX vs SHAM (1140): 24 pathways; model TX 143 vs 129 (147): 0 pathway; model SHAM 143 vs 129 (504): 2 pathways;
 ##                 model 129 TX vs SHAM (882): 100 pathways; model 143 TX vs SHAM (1230): 7 pathways; model 143 vs 129 (327): 0 pathway.
@@ -676,7 +676,7 @@ BP.gplotdat$Pathway <- with(BP.gplotdat, reorder(Pathway, TXvsSHAM))
 BP.gplotm <- melt(BP.gplotdat)
 BP.gplotm <- ddply(BP.gplotm, .(variable), transform)
 
-pdf(paste0(out.dir, "/", Project, "-BPpathway_4models_Heatmap_05_08_2019.pdf"), height=12, width = 5)
+pdf(paste0(out.dir, "/", Project, "-BPpathway_6models_Heatmap_Supplementary_Fig4A.pdf"), height=12, width = 5)
 base_size <- 9
 ggplot(BP.gplotm, aes(variable, Pathway)) +
   geom_tile(aes(fill = value), colour = "grey") +
@@ -694,7 +694,7 @@ ggplot(BP.gplotm, aes(variable, Pathway)) +
 dev.off()
 
 
-message("+-----       Produce the barplot with the number of up/down regulated genes and zscore, and padj  ----------------+")
+message("+-----     SFig3(b), SFig4(b)  Produce the barplot with the number of up/down regulated genes and zscore, and padj  ----------------+")
 
 KEGG_list_up <- list()
 KEGG.sheep.TS <- as.data.frame(KEGG.sheep.ori[[1]])
@@ -718,7 +718,7 @@ brks <- seq(-30, 30, 10)
 lbls = as.character(c(seq(30, 0, -10), seq(10, 30, 10)))
 zscore <- round(KEGG.sheep.TS$zscore, digits = 3)
 
-pdf(paste0(out.dir, "/", Project, "-Kegg_sheep_TXvsSHAM_GeneCount_Barplot_N44_08_08_19.pdf"), width=12, height=8)
+pdf(paste0(out.dir, "/", Project, "-Kegg_sheep_TXvsSHAM_GeneCount_Barplot_N44_Supplementary_Fig3B.pdf"), width=12, height=8)
 barplotSum <- ggplot(KEGG.sheep.TS_molten, aes(x = reorder(Description, -qvalue), y = value, fill = variable)) +   # Fill column
   geom_bar(stat = "identity", width = 0.8) +   # draw the bars
   scale_y_continuous(breaks = brks,   # Breaks
@@ -772,7 +772,7 @@ brks <- seq(-40, 40, 10)
 lbls = as.character(c(seq(40, 0, -10), seq(10, 40, 10)))
 zscore <- round(BP.sheep.TS$zscore, digits = 3)
 
-pdf(paste0(out.dir, "/", Project, "-BP_sheep_TXvsSHAM_GeneCount_Barplot_N24_08_08_19.pdf"), width=12, height=6)
+pdf(paste0(out.dir, "/", Project, "-BP_sheep_TXvsSHAM_GeneCount_Barplot_N24_Supplementary_Fig4B.pdf"), width=12, height=6)
 barplotSum1 <- ggplot(BP.sheep.TS_molten, aes(x = reorder(Description, -qvalue), y = value, fill = variable)) +   # Fill column
   geom_bar(stat = "identity", width = 0.8) +   # draw the bars
   scale_y_continuous(breaks = brks,   # Breaks
@@ -800,11 +800,13 @@ barplotSum1
 
 dev.off()
 
-pdf(paste0(out.dir, "/", Project, "-KEGG_BP_sheep_TXvsSHAM_GeneCount_Barplot_N24_08_08_19.pdf"), width= 18, height = 8)
+pdf(paste0(out.dir, "/", Project, "-KEGG_BP_Supplementary_Fig3B_4B.pdf"), width= 18, height = 8)
 plot_grid(barplotSum, barplotSum1, ncol = 2,labels = c('(A)', '(B)'), label_size = 12, align="hv", rel_heights = c(1.5,1))
 dev.off()
 
-## Produce the key pathways barplots as Main Figure 2.
+message("+-----     Fig 3  Produce the barplot with the number of up/down regulated genes and zscore, and padj  ----------------+")
+
+## Produce the key pathways barplots as Main Figure 3
 ## selected KEGG
 selindex <- c(1,2,19,21,23,29,30,37,39,40,42,43)
 selindex.new <- c(selindex, selindex+44)
@@ -866,7 +868,7 @@ barplotSum.BP <- ggplot(BP.TS.sel.com, aes(x = reorder(Description, -qvalue), y 
                axis.text.y.left = element_text(size=18, face="bold", hjust=0.95)) +
   theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         axis.line = element_line(colour = "black"),panel.background = element_rect(fill = "white", colour = NA)) 
-pdf(paste0(out.dir, "/", Project, "-Kegg_sheep_TXvsSHAM_GeneCount_Barplot_N12_BP_N8_13_09_19.pdf"), width=12, height=10)
+pdf(paste0(out.dir, "/", Project, "-GO_pathway_barplot_Fig3.pdf"), width=12, height=10)
 
 plot_grid(barplotSum.kegg, barplotSum.BP, nrow=2, align="v", labels=c("(A)", "(B)"), label_size = 16, rel_heights = c(1.2,0.7))
 
