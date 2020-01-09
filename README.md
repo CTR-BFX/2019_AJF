@@ -23,7 +23,18 @@ STAR           | [DOI](https://academic.oup.com/bioinformatics/article/29/1/15/2
 Feature_Counts | [DOI](http://dx.doi.org/10.1093/bioinformatics/btt656)
 ClusterFlow    | [DOI](http://dx.doi.org/10.12688/f1000research.10335.2)
 MultiQC        | [DOI](http://dx.doi.org/10.1093/bioinformatics/btw354)
+IGV_2.5.2      | [DOI](https://software.broadinstitute.org/software/igv)
 
+## RNA-Seq Isoform analysis for thyroid hormone receptor alpha
+As nucleotide sequences for the two THRA isoforms 1 and 2 are not available for sheep, we
+utilised the highly similar pig sequences (White &amp; Dauncey, 1999, 10.1677/jme.0.0230241)
+to map their genomic positions in the Sheep genome (version Oar_3.1) using BLAT
+(https://genome-euro.ucsc.edu/cgi-bin/hgBlat). From the BLAT results a bed12 file was
+created to contain the exon positions for the THRA-1 and THRA-2 isoforms.
+Individual RNA-Seq alignment files from each of the four groups (SHAM_129, SHAM_143,
+TX_129 and TX_143) were merged and loaded into IGV (genome Oar_3.1). A Sashimi plot
+was generated for the custom bed12 file for THRA isoforms.
+<img src="Images/THRA_Sashimi.png" width="500">
 
 ## Scripts to reproduce paper figures and Tables
 
